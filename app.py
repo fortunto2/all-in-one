@@ -27,18 +27,13 @@ class Segment(BaseModel):
     label: str
 
 
-class MusicBeats(BaseModel):
+class AudioMetadata(BaseModel):
+    duration: float
     bpm: int
     beats: list[float]
     downbeats: list[float]
     beat_positions: list[int]
     segments: list[Segment]
-
-    @computed_field()
-    @property
-    def duration(self) -> float | None:
-        if self.segments:
-            return self.segments[-1].end
 
 
 def get_audio_duration(file_path):
@@ -70,6 +65,7 @@ def trim_audio(input_path, output_path, duration):
 @app.get(
     "/analyze",
     name="audio",
+    response_model=AudioMetadata,
 )
 def audio_analyze(
     file_url: str,
@@ -110,6 +106,7 @@ def audio_analyze(
     os.remove(file_path)
 
     return {
+        "duration": duration,
         "bpm": analysis_result.bpm,
         "beats": analysis_result.beats,
         "downbeats": analysis_result.downbeats,

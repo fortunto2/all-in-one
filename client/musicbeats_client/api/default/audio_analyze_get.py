@@ -5,6 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.audio_metadata import AudioMetadata
 from ...models.http_validation_error import HTTPValidationError
 from ...types import UNSET, Response, Unset
 
@@ -33,9 +34,10 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Any, HTTPValidationError]]:
+) -> Optional[Union[AudioMetadata, HTTPValidationError]]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = response.json()
+        response_200 = AudioMetadata.from_dict(response.json())
+
         return response_200
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
         response_422 = HTTPValidationError.from_dict(response.json())
@@ -49,7 +51,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Any, HTTPValidationError]]:
+) -> Response[Union[AudioMetadata, HTTPValidationError]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -63,7 +65,7 @@ def sync_detailed(
     client: Union[AuthenticatedClient, Client],
     file_url: str,
     max_duration: Union[Unset, float] = 90.0,
-) -> Response[Union[Any, HTTPValidationError]]:
+) -> Response[Union[AudioMetadata, HTTPValidationError]]:
     """Audio
 
     Args:
@@ -75,7 +77,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, HTTPValidationError]]
+        Response[Union[AudioMetadata, HTTPValidationError]]
     """
 
     kwargs = _get_kwargs(
@@ -95,7 +97,7 @@ def sync(
     client: Union[AuthenticatedClient, Client],
     file_url: str,
     max_duration: Union[Unset, float] = 90.0,
-) -> Optional[Union[Any, HTTPValidationError]]:
+) -> Optional[Union[AudioMetadata, HTTPValidationError]]:
     """Audio
 
     Args:
@@ -107,7 +109,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, HTTPValidationError]
+        Union[AudioMetadata, HTTPValidationError]
     """
 
     return sync_detailed(
@@ -122,7 +124,7 @@ async def asyncio_detailed(
     client: Union[AuthenticatedClient, Client],
     file_url: str,
     max_duration: Union[Unset, float] = 90.0,
-) -> Response[Union[Any, HTTPValidationError]]:
+) -> Response[Union[AudioMetadata, HTTPValidationError]]:
     """Audio
 
     Args:
@@ -134,7 +136,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, HTTPValidationError]]
+        Response[Union[AudioMetadata, HTTPValidationError]]
     """
 
     kwargs = _get_kwargs(
@@ -152,7 +154,7 @@ async def asyncio(
     client: Union[AuthenticatedClient, Client],
     file_url: str,
     max_duration: Union[Unset, float] = 90.0,
-) -> Optional[Union[Any, HTTPValidationError]]:
+) -> Optional[Union[AudioMetadata, HTTPValidationError]]:
     """Audio
 
     Args:
@@ -164,7 +166,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, HTTPValidationError]
+        Union[AudioMetadata, HTTPValidationError]
     """
 
     return (

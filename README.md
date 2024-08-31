@@ -1,3 +1,10 @@
+## Local instalation
+
+```shell
+cd tmp/NATTEN && make && pip install .
+pip install .
+```
+
 ## Build
 
 Swap `linux/amd64` and `Dockerfile` with `linux/arm64` and `Dockerfile.mac` for arm-based builds
