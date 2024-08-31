@@ -1,9 +1,9 @@
 ## Build
 
-Swap `linux/amd64` with `linux/arm64` for arm-based builds
+Swap `linux/amd64` and `Dockerfile` with `linux/arm64` and `Dockerfile.mac` for arm-based builds
 
 ```shell
-docker buildx build --platform linux/arm64 -f Dockerfile.mac -t superduperai/music2beats:arm64 .
+docker buildx build --platform linux/amd64 -f Dockerfile -t [url]/music2beats:[tag] .
 ```
 
 ## API Client
