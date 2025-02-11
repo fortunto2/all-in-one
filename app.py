@@ -1,3 +1,4 @@
+import warnings
 from logging import getLogger
 import os
 import subprocess
@@ -5,11 +6,12 @@ import tempfile
 from urllib import request
 from fastapi import FastAPI
 from mutagen.mp3 import MP3
-from pydantic import BaseModel, computed_field
+from pydantic import BaseModel
 
 from allin1 import analyze
 from allin1.typings import AnalysisResult
 
+warnings.filterwarnings("ignore")
 
 OUT_DIR = "/tmp/struct"
 DEMIX_DIR = "/tmp/demix"
